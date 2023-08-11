@@ -19,7 +19,7 @@ $user = Auth::user()->usertype;
    @if ($user =='admin')
     <li class="nav-item">
       <a class="nav-link {{ request()->is('*/Events') ? '' : 'collapsed' }}{{ request()->is('*/Edit-Event/*') ? 'collapsed' : '' }}{{ request()->is('*/Add-Event') ? 'collapsed' : '' }}" href="{{ url('Dbys/Events') }}">
-        <i class="bi bi-grid"></i>
+        <i class="fa fa-plus-square"></i>
         <span>Events</span>
       </a>
     </li>

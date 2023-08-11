@@ -39,7 +39,6 @@
         }
         .error{
             color: red;
-            font-size:13px;
         }
     </style>
     
@@ -74,8 +73,8 @@
                                     <form method="POST" id="registerform" action="{{ route('register') }}" class="row g-3">
                                         @csrf
                                         <div class="col-12">
-                                            <label for="yourUsername" class="form-label text-sm">Username</label>
-                                                <input type="text" name="username" class="w-full text-lg py-2 border-b border-gray-300 form-control" id="username"
+                                            <label for="yourUsername" class="form-label ">Username</label>
+                                                <input type="text" name="username" class="w-full  py-2 border-b border-gray-300 form-control" id="username"
                                                 value="{{ old('username') }}"
                                                 autocomplete="username" required>
                                                 @error('username')
@@ -85,8 +84,8 @@
                                             @enderror   
                                         </div>
                                         <div class="col-12">
-                                            <label for="yourEmail" class="form-label text-sm">Email</label>
-                                             <input type="email" name="email" class="w-full text-lg py-2 border-b border-gray-300 form-control  @error('email') is-invalid @enderror" id="email"
+                                            <label for="yourEmail" class="form-label ">Email</label>
+                                             <input type="email" name="email" class="w-full  py-2 border-b border-gray-300 form-control  @error('email') is-invalid @enderror" id="email"
                                                 value="{{ old('email') }}"
                                                 autocomplete="email" required>
                                                 @error('email')
@@ -96,10 +95,10 @@
                                 @enderror   
                                         </div>
                                      <div class="col-12">
-                                        <label for="yourPassword" class="form-label text-sm">Password</label>
+                                        <label for="yourPassword" class="form-label ">Password</label>
                                         <div class="relative">
-                                            <input class="w-full text-lg py-2 border-b border-gray-300 form-control  @error('password') is-invalid @enderror" type="password"  id="password"   name="password" required autocomplete="new-password">
-                                            <div class="absolute inset-y-0 right-0 pr-3 flex text-sm leading-5" style="margin-top: 12px;">
+                                            <input class="w-full  py-2 border-b border-gray-300 form-control  @error('password') is-invalid @enderror" type="password"  id="password"   name="password" required autocomplete="new-password">
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex  leading-5" style="margin-top: 12px;">
                                             <svg class="h-6 text-gray-700" fill="none" id="view" xmlns="http://www.w3.org/2000/svg"
                                             viewbox="0 0 576 512">
                                             <path fill="currentColor"
@@ -123,10 +122,10 @@
                                            
                                         </div>
                                         <div class="col-12">
-                                            <label for="yourPassword" class="form-label text-sm">Confirm Password</label>
+                                            <label for="yourPassword" class="form-label ">Confirm Password</label>
                                             <div class="relative">
-                                                <input class="w-full text-lg py-2 border-b border-gray-300 form-control" type="password"  id="password-confirm" name="password_confirmation" required autocomplete="new-password">
-                                                <div class="absolute inset-y-0 right-0 pr-3 flex text-sm leading-5" style="margin-top: 12px;">
+                                                <input class="w-full  py-2 border-b border-gray-300 form-control" type="password"  id="password-confirm" name="password_confirmation" required autocomplete="new-password">
+                                                <div class="absolute inset-y-0 right-0 pr-3 flex  leading-5" style="margin-top: 12px;">
                                                 <svg class="h-6 text-gray-700" fill="none" id="rview" xmlns="http://www.w3.org/2000/svg"
                                                 viewbox="0 0 576 512">
                                                 <path fill="currentColor"
@@ -166,15 +165,11 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
     <script>
+
         $(document).ready(function() {
         $("#view").on('click', function(event) {
             event.preventDefault();
@@ -191,6 +186,7 @@
             $('#hide').attr('style','display:none');
         });
     });
+
     $(document).ready(function() {
         $("#rview").on('click', function(event) {
             event.preventDefault();
@@ -207,10 +203,21 @@
             $('#rhide').attr('style','display:none');
         });
     });
+
+
+    jQuery.validator.addMethod("accept", function(value, element, param) {
+        return value.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,8})$/);
+    },'The email should be in the format: abc@gmail.com');
+
+
+     jQuery.validator.addMethod("noSpace", function(value, element) { //Code used for blank space Validation
+            return value.indexOf(" ") < 0 && value != "";
+        }, "No space please and don't leave it empty");
+        
+
     $("#registerform").validate({
             rules: {
                 username: {
-
                         required: true,
                         maxlength: 50,
                         minlength:8,

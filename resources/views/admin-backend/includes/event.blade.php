@@ -48,7 +48,10 @@ if(!empty($event)){
     font-size: 14px;
     color: red;
      }
-     
+     .datetimepicker input {
+      background-color: #f2f2f2;
+      color: #333;
+    }
     </style>
 
 <section class="section dashboard">
@@ -105,13 +108,12 @@ if(!empty($event)){
               
                <div class="col-6">
                       <label for="activedate" class="form-label">Start Date & Time <span class="mandatory">*</span></label>
-                      <input type="datetime-local" name="start_datetime" id="start_datetime" value="{{ $selectedDateTime ?? '' }}" class="form-control">
-                     
-            </div>
+                      <input type="text" name="start_datetime" id="start_datetime" value="{{ $selectedDateTime ?? '' }}" class="form-control datetimepicker">
+                  </div>
 
             <div class="col-6">
                     <label for="enddate" class="form-label">End Date & Time<span class="mandatory">*</span></label>
-                    <input type="datetime-local" name="end_datetime" id="end_datetime" value="{{ $endDateTime ?? '' }}" class="form-control">
+                    <input type="text" name="end_datetime" id="end_datetime" value="{{ $endDateTime ?? '' }}" class="form-control datetimepicker">
             </div>
             <div class="col-md-6">
               <label class="form-label">Location<span class="mandatory">*</span></label>
@@ -133,8 +135,8 @@ if(!empty($event)){
           {{-- <div class=" col-md-6">
             <label class="required"
                 for="request_date">datetime</label>
-            <input class="form-control datetime"
-                type="text" name="end_datetime" id="request_date" value="" required
+            <input class="form-control datetimepicker"
+                type="text" id="datetimeInput"  name="end_datetime"  value="" required
                 data-date-format="DD-MM-YYYY HH:mm:ss">
 
         </div> --}}
@@ -151,17 +153,20 @@ if(!empty($event)){
 
 <script>
   
-  $('.datetime').datetimepicker({
-    format: 'DD-MM-YYYY hh:mm:ss A',
-    locale: 'en',
-    sideBySide: true,
-    icons: {
-        up: 'fas fa-chevron-up',
-        down: 'fas fa-chevron-down',
-        previous: 'fas fa-chevron-left',
-        next: 'fas fa-chevron-right'
-    }
-});
+  $(document).ready(function() {
+    $('.datetimepicker').datetimepicker({
+      format: 'DD-MM-YYYY hh:mm:ss A',
+      locale: 'en',
+      sideBySide: true,
+      icons: {
+          up: 'fas fa-chevron-up',
+          down: 'fas fa-chevron-down',
+          previous: 'fas fa-chevron-left',
+          next: 'fas fa-chevron-right'
+        }
+    });
+  });
+
    // Get references to the input and image elements
    const inputElement = document.getElementById("image-upload");
       const imageElement = document.getElementById("preview-image");

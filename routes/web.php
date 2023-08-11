@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +22,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::get('checkusername', [RegisterController::class, 'checkusername']);
+Route::get('checkemail', [RegisterController::class, 'checkemail']);
 
 Route::group(['middleware' => 'auth'], function(){
    
@@ -43,7 +47,8 @@ Route::group(['middleware' => 'auth'], function(){
      Route::post('addUser',[HomeController::class,'adduser']);
     // export user
     Route::get('exportXlxs', [ExportController::class,'exportXlxs'])->name('exportXlxs');
-
+    //notification
+    Route::get('DBYS/notification',[EventController::class,'notifycount']);
 });
 
 Route::get('logout', function ()

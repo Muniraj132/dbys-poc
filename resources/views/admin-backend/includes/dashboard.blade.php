@@ -268,6 +268,8 @@
 {{-- end user model --}}
   </div>
 </section>
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
 <script>
 
 
@@ -279,10 +281,65 @@
     '<input type="text" id="password" name="password" class="form-control" value=""></div>');
     $('#myModal').appendTo("body").modal('toggle');
   });
+ 
+  jQuery.validator.addMethod("accept", function(value, element, param) {
+        return value.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,8})$/);
+    },'The email should be in the format: abc@gmail.com');
 
-  $('#adduser').click(function(e){ 
-        e.preventDefault();
-        var formId = 'manageusers';
+     jQuery.validator.addMethod("noSpace", function(value, element) { //Code used for blank space Validation
+            return value.indexOf(" ") < 0 && value != "";
+        }, "No space please and don't leave it empty");
+        
+    $("#manageusers").validate({
+            rules: {
+                username: {
+                        required: true,
+                        maxlength: 50,
+                        minlength:8,
+                        noSpace: true,
+                        remote:{
+                            url:"{{ url('checkusername') }}",
+                            type:"get",
+                     }
+                      },
+                email: {
+                       required:true,
+                        email:true,
+                        accept: true,
+                        required: true,
+                        maxlength:100,
+                        remote:{
+                            url:"{{ url('checkemail') }}",
+                            type:"get",
+                     }
+                },
+                password: {
+                        required: true,
+                         minlength: 5,
+                         maxlength: 50,
+
+                 }
+            },
+            messages: {
+                username: {
+                    required: "Please enter a valid Username.",
+                    remote:"Username has already been taken."
+                },
+                email: {
+                    required: "Please enter a valid Email",
+                     remote:"Email has been already taken",
+                     regex:"Please enter a valid Email"
+                },
+                password: {
+                        required: "Please enter a valid Password.",
+                        regex:"Please enter a valid Password.",
+                }
+            },
+
+        });
+
+  $('#adduser').click(function(){    
+     var formId = 'manageusers';
         var method = 'POST';
         var data = $("#"+formId+"").serializeArray();
         var url = "{{ url('addUser') }}";
@@ -416,11 +473,15 @@ $('.usertable').on('click','.userdel',function() {
           $('#myModal').modal('hide');
           $('#manageusers').trigger('reset');
           $("#passwordadd").remove();
+          $('label.error').remove();
+          $(".error").removeClass("error");
       });
       $("#CloseModal").click(function() {
         $('#myModal').modal('hide');
         $('#manageusers').trigger('reset');
         $("#passwordadd").remove();
+        $('label.error').remove();
+        $(".error").removeClass("error");
       });
 
       // Export data

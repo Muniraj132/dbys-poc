@@ -21,9 +21,9 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Events </th>
-                                <th scope="col">image</th>
                                 <th scope="col">start Date & Time</th>
                                 <th scope="col">End Date & Time</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">location</th> 
                                 <th scope="col">Action</th>
                             </tr>
@@ -75,7 +75,7 @@ var activedate = $('table#main-event-table').DataTable({
             {data: "id", render: function (data, type, row, meta) {return meta.row + meta.settings._iDisplayStart + 1;}},
 
             {data: 'title', name: 'title',orderable: true, searchable: true},
-             {data: 'image', name: 'image',orderable: false, searchable: true},
+            //  {data: 'image', name: 'image',orderable: false, searchable: true},
              {
                     data: 'start_datetime',
                     name: 'Active Date',
@@ -93,7 +93,7 @@ var activedate = $('table#main-event-table').DataTable({
                         hours = hours % 12;
                         hours = hours ? hours : 12; // Convert 0 to 12
                         
-                        return dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes + ' ' + ampm;
+                        return dd + '-' + mm + '-' + yyyy + ' ' + hours + ':' + minutes + ' ' + ampm;
                     }
              },  
 
@@ -114,12 +114,12 @@ var activedate = $('table#main-event-table').DataTable({
                         hours = hours % 12;
                         hours = hours ? hours : 12; // Convert 0 to 12
                         
-                        return dd + '/' + mm + '/' + yyyy + ' ' + hours + ':' + minutes + ' ' + ampm;
+                        return dd + '-' + mm + '-' + yyyy + ' ' + hours + ':' + minutes + ' ' + ampm;
                     }
                 },
 
             {data: 'location', name: 'Year',orderable: true, searchable: true},
-            // {data: 'Status', name: 'Status',orderable: true, searchable: true},
+             {data: 'status', name: 'status',orderable: true, searchable: true},
             {data: 'Action', name: 'Action', orderable: false, searchable: true},
         ]
     });
