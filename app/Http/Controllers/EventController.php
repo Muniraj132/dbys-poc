@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use DateTime;
 
 class EventController extends Controller
 {
@@ -19,7 +20,20 @@ class EventController extends Controller
     }
     public function EventStore(Request $request){
        
-    
+        // change start date formate
+        $originalDate = $request->start_datetime;
+        $dateTime = new DateTime($originalDate); 
+        $newFormat = $dateTime->format('Y-m-d\TH:i');
+         
+        // change end date formate
+        $endtimedate =$request->end_datetime;
+        $enddateTime = new DateTime($endtimedate); 
+        $newendFormat = $enddateTime->format('Y-m-d\TH:i');
+        $request->merge([
+            'start_datetime' => $newFormat,
+            'end_datetime' =>$newendFormat
+        ]);
+
         $file = $request->file('image');
         if($file != null){
         $filename = $file->getClientOriginalName();
@@ -53,6 +67,21 @@ class EventController extends Controller
        
         $file = $request->file('image');
         $id= $request->id;
+        
+        // change start date formate
+        $originalDate = $request->start_datetime;
+        $dateTime = new DateTime($originalDate); 
+        $newFormat = $dateTime->format('Y-m-d\TH:i');
+         
+        // change end date formate
+        $endtimedate =$request->end_datetime;
+        $enddateTime = new DateTime($endtimedate); 
+        $newendFormat = $enddateTime->format('Y-m-d\TH:i');
+        $request->merge([
+            'start_datetime' => $newFormat,
+            'end_datetime' =>$newendFormat
+        ]);
+
         if ($file != null) {
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -104,6 +133,20 @@ class EventController extends Controller
         $data = Event::where('id',$id)->delete();
 
         return response()->json(['success'=> "Deleted Successfully!"]);
+    }
+
+    public function notifycount(Request $request){
+        $count ='2';
+        $data = [
+            'title' => 'title of the notification',
+            'description'=> 'description of the notification',
+            'time'=>'30 min ago'
+        ];
+        return response()->json([
+            'count'=>$count,
+            'data'=>$data,
+            
+        ]);
     }
 }
 

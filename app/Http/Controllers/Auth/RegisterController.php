@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -47,12 +48,34 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+    protected function checkusername(Request $request)
+  {  
+    
+    $data = $request->all();
+    $user = User::where('username', $data['username'])->first();
+    
+    if ($user) {
+        return "false";
+    } else {
+        return "true";
+    }
+  }
+
+    protected function checkemail(Request $request)
+  {  $data= $request->all();
+        $user = User::all()->where('email',$data['email'])->first();
+      if ($user) {
+            return "false";
+      } else {
+          return "true";
+      }
+  }
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['required'],
+            'email' => ['required','unique:users'],
+            'password' => ['required'],
         ]);
     }
 
@@ -70,4 +93,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    
 }
